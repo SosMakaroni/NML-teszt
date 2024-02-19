@@ -1,0 +1,504 @@
+grf {
+	grfid: "HS\16\17";
+	name: string(STR_GRF_NAME);
+	desc: string(STR_GRF_DESC);
+	version: 10;
+	min_compatible_version: 5722;
+	param 0 {
+        param_cost_factor {
+            type: int;
+            name: string(STR_PARAM_BUY_NAME);
+            desc: string(STR_PARAM_BUY_DESC);
+            min_value: 0;
+            max_value: 4;
+            def_value: 2;
+            names: {
+					0: string(STR_PARAM_GAME_VERY_EASY);
+                    1: string(STR_PARAM_GAME_EASY);
+					2: string(STR_PARAM_GAME_NORMAL);
+					3: string(STR_PARAM_GAME_HARD);
+					4: string(STR_PARAM_GAME_VERY_HARD);
+                    };
+				}
+			}
+	param 1 {
+		param_running_cost_factor {
+            type: int;
+            name: string(STR_PARAM_MAINTENANCE_NAME);
+            desc: string(STR_PARAM_MAINTENANCE_DESC);
+            min_value: 0;
+            max_value: 4;
+            def_value: 2;
+            names: {
+					0: string(STR_PARAM_GAME_VERY_EASY);
+                    1: string(STR_PARAM_GAME_EASY);
+					2: string(STR_PARAM_GAME_NORMAL);
+					3: string(STR_PARAM_GAME_HARD);
+					4: string(STR_PARAM_GAME_VERY_HARD);
+                    };
+				}
+			}
+	param 2 {
+		param_cargo_capacity {
+            type: int;
+            name: string(STR_PARAM_CARGOC_NAME);
+            desc: string(STR_PARAM_CARGOC_DESC);
+            min_value: 0;
+            max_value: 3;
+            def_value: 0;
+            names: {
+					0: string(STR_PARAM_CARGOC_1);
+                    1: string(STR_PARAM_CARGOC_2);
+					2: string(STR_PARAM_CARGOC_4);
+					3: string(STR_PARAM_CARGOC_8);
+                    };
+				}
+			}
+
+}
+
+paracapa = (param_cargo_capacity == 1) ? 2 : (param_cargo_capacity == 2) ? 4 : (param_cargo_capacity == 3) ? 8 : 1;
+parapuco = (param_cost_factor == 1) ? 2 : (param_cost_factor == 2) ? 4 : (param_cost_factor == 3) ? 8 : (param_cost_factor == 4) ? 16 : 1;
+pararuco = (param_running_cost_factor == 1) ? 2 : (param_running_cost_factor == 2) ? 4 : (param_running_cost_factor == 3) ? 8 : (param_running_cost_factor == 4) ? 16 : 1;
+
+tramtypetable  {
+	RAIL,	//SIMA
+	NBAN,	//Ufibi's Improved
+	NIAN,	//Ufibi's ISR
+	ELRL,	//FELSOVEZETEK
+	NBAE,	//Ufibi's Improved (EL)
+	NUAE,	//Ufibi's Urban (EL)
+	NUBE,	//Ufibi's Modern Urban (EL)
+	NUCE,	//Ufibi's Green (EL)
+	NIAN	//Ufibi's ISR (EL)
+}
+
+cargotable {
+PASS, COAL, MAIL, OIL_, LVST, GOOD, GRAI, WOOD, IORE, STEL, VALU, PAPR, WHEA, FOOD, GOLD,RUBR, FRUT, MAIZ, CORE, WATR, DIAM, SUGR, AORE, BDMT, BEAN, BEER, BOOM, BRCK, CBLK,CERA, CERE, CLAY, CMNT, COPR, CSTI, CTAR, DYES, ENSP, FECR, FERT, FICR, FISH, FMSP, GLAS, GRVL, JAVA, KAOL, LIME, MILK, OLSD, PEAT, PETR, PHOS, PLAS, PORE, POTA, TOUR, TYRE, URAN, VEHI, WDPR, WOOL, ZINC, ACID, ALUM, BAKE, CASS, CHLO, CHSE, CIGR, COAT, COBL, COKE, ELTR, EOIL, FRVG, FUEL, FURN, IRON, LYE_, MEAT, METL, MNO2, MNSP, MOLS, MPTS, NH3_, NUTS, NICK, NITR, NKOR, NUKF, NUKW, OILI, OILD, OTI1, OTI2, OYST, O2__, PCL_, PIPE, POWR, QLME, RCYC, SALT, SASH, SEED, SESP, SGBT, SGCN, SLAG, SOAP, STAL, STCB, STSE, STSH, STST, STWR, TATO, TEXT, TBCO, TWOD, VBOD, VENG, VPTS, WSTE
+/*
+//PASSENGERS CLASS
+PASS, TOUR, 
+//MAIL CLASS
+MAIL,
+//EXPRESS CLASS
+GOOD,
+//ARMOURED CLASS
+VALU, GOLD, DIAM, 
+//BULK CLASS
+COAL, GRAI,  IORE, WHEA, MAIZ, CORE, SUGR, AORE, BEAN, GRVL, LIME, SAND, SCMT, 
+//PIECE GOODS CLASS
+LVST, WOOD, STEL, PAPR,  COPR, METL, 
+//LIQUID CLASS
+OIL_, RUBR, WATR, PETR, RFPR, 
+//EXPRESS + REFRIGERATED CLASS
+FOOD, FISH, MEAT, 
+//BULK + REFRIGERATED CLASS
+FRUT, 
+//BULK + COVERED CLASS
+CLAY, CMNT, OLSD, 
+//BULK + PIECE CLASS
+FERT, FICR, WDPR, RCYC, 
+//HAZARDOUS CLASS
+
+//PIECE GOODS + COVERED CLASS
+BDMT, WOOL, TEXT, 
+//OVERSIZED CLASS
+
+//PIECE + OVERSIZED CLASS
+GLAS, VEHI, 
+//POWDERIZED CLASS (COVER)
+
+//EXPRESS + LIQUID + REFRIGERATED
+MILK, 
+//EXPRESS + PIECE + LOQUID CLASS
+BEER, 
+//EXPRESS + PIECE CLASS
+BOOM, ENSP, FMSP, JAVA, VPTS, VENG, VBOD,*/
+}
+
+
+template tmpl_purchase() {
+	[0,	0,	99,	25,	-25,-15]}
+template tmpl_depo() {
+	[98,	0,	90,	25,	-13,-15]}	
+template tmpl_1(z1){
+	[0		*z1,	0,	12	*z1,	54	*z1,	-5	*z1,	-13	*z1,	ANIM]
+	[67		*z1,	0,	60	*z1,	45	*z1,	-45	*z1,	-12	*z1,	ANIM]
+	[215	*z1,	0,	73	*z1,	16	*z1,	-54	*z1,	-10	*z1,	ANIM]
+	[376	*z1,	0,	60	*z1,	45	*z1,	-41	*z1,	-29	*z1,	ANIM]
+	[491	*z1,	0,	12	*z1,	54	*z1,	-6	*z1,	-32	*z1,	ANIM]
+	[558	*z1,	0,	60	*z1,	45	*z1,	-15	*z1,	-28	*z1,	ANIM]
+	[706	*z1,	0,	73	*z1,	16	*z1,	-11	*z1,	-9	*z1,	ANIM]
+	[867	*z1,	0,	60	*z1,	45	*z1,	-8	*z1,	-14	*z1,	ANIM]}
+template tmpl_1_jobb(z1){
+	[20		*z1,	0,	39	*z1,	51	*z1,	-5	*z1,	-13	*z1,	ANIM]
+	[135	*z1,	0,	72	*z1,	34	*z1,	-45	*z1,	-12	*z1,	ANIM]
+	[296	*z1,	0,	72	*z1,	34	*z1,	-54	*z1,	-10	*z1,	ANIM]
+	[444	*z1,	0,	39	*z1,	51	*z1,	-41	*z1,	-29	*z1,	ANIM]
+	[511	*z1,	0,	39	*z1,	51	*z1,	-6	*z1,	-32	*z1,	ANIM]
+	[626	*z1,	0,	72	*z1,	34	*z1,	-15	*z1,	-28	*z1,	ANIM]
+	[787	*z1,	0,	72	*z1,	34	*z1,	-11	*z1,	-9	*z1,	ANIM]
+	[935	*z1,	0,	39	*z1,	51	*z1,	-8	*z1,	-14	*z1,	ANIM]}
+template tmpl_1_bal(z1){
+	[935	*z1,	0,	39	*z1,	51	*z1,	-8	*z1,	-14	*z1,	ANIM]
+	[20		*z1,	0,	39	*z1,	51	*z1,	-5	*z1,	-13	*z1,	ANIM]
+	[135	*z1,	0,	72	*z1,	34	*z1,	-45	*z1,	-12	*z1,	ANIM]
+	[296	*z1,	0,	72	*z1,	34	*z1,	-54	*z1,	-10	*z1,	ANIM]
+	[444	*z1,	0,	39	*z1,	51	*z1,	-41	*z1,	-29	*z1,	ANIM]
+	[511	*z1,	0,	39	*z1,	51	*z1,	-6	*z1,	-32	*z1,	ANIM]
+	[626	*z1,	0,	72	*z1,	34	*z1,	-15	*z1,	-28	*z1,	ANIM]
+	[787	*z1,	0,	72	*z1,	34	*z1,	-11	*z1,	-9	*z1,	ANIM]}
+
+template tmpl_toldat() {
+	[0,	0,	2,	2,	1,	1]}	
+
+spriteset(ss_toldat, "src/icons.png")		{tmpl_toldat()}
+
+template tmpl_semmi() {
+	[0,	0,	2,	2,	1,	1]
+	[0,	0,	2,	2,	1,	1]
+	[0,	0,	2,	2,	1,	1]
+	[0,	0,	2,	2,	1,	1]
+	[0,	0,	2,	2,	1,	1]
+	[0,	0,	2,	2,	1,	1]
+	[0,	0,	2,	2,	1,	1]
+	[0,	0,	2,	2,	1,	1]}
+
+//Wood logo, replaces ł 0x0142
+font_glyph (NORMAL, 0x0142, "src/icons.png") {[20,80,24,10,0,0]}
+font_glyph (SMALL, 0x0142, "src/icons.png") {[10,80,1,1,0,0]}
+font_glyph (LARGE, 0x0142, "src/icons.png") {[10,80,1,1,0,0]}
+font_glyph (MONO, 0x0142, "src/icons.png") {[10,80,1,1,0,0]}
+
+//Trailer logo, replaces Ł 0x0141
+font_glyph (NORMAL, 0x0141, "src/icons.png") {[60,80,29,10,0,0]}
+font_glyph (SMALL, 0x0141, "src/icons.png") {[10,80,1,1,0,0]}
+font_glyph (LARGE, 0x0141, "src/icons.png") {[10,80,1,1,0,0]}
+font_glyph (MONO, 0x0141, "src/icons.png") {[10,80,1,1,0,0]}
+
+//Double logo, replaces đ 0x0111
+font_glyph (NORMAL, 0x0111, "src/icons.png") {[110,80,29,10,0,0]}
+font_glyph (SMALL, 0x0111, "src/icons.png") {[10,80,1,1,0,0]}
+font_glyph (LARGE, 0x0111, "src/icons.png") {[10,80,1,1,0,0]}
+font_glyph (MONO, 0x0111, "src/icons.png") {[10,80,1,1,0,0]}
+
+//Triple logo, replaces Đ 0x0110
+font_glyph (NORMAL, 0x0110, "src/icons.png") {[160,80,25,10,0,0]}
+font_glyph (SMALL, 0x0110, "src/icons.png") {[10,80,1,1,0,0]}
+font_glyph (LARGE, 0x0110, "src/icons.png") {[10,80,1,1,0,0]}
+font_glyph (MONO, 0x0110, "src/icons.png") {[10,80,1,1,0,0]}
+
+//Twin logo, replaces Ń 0x0143
+font_glyph (NORMAL, 0x0143, "src/icons.png") {[20,110,21,10,0,0]}
+font_glyph (SMALL, 0x0143, "src/icons.png") {[10,80,1,1,0,0]}
+font_glyph (LARGE, 0x0143, "src/icons.png") {[10,80,1,1,0,0]}
+font_glyph (MONO, 0x0143, "src/icons.png") {[10,80,1,1,0,0]}
+
+// --------------------------------------------------------------------------------OPIa
+
+spriteset(ss_OPIa_purchase, "src/OPIa_BUY_8bpp.png")		{tmpl_purchase()} // Vásárlási jármű
+spriteset(ss_OPIa_P_purchase, "src/OPI_BUY_P_8bpp.png")		{tmpl_purchase()} // Vásárlási áramszedő
+
+spriteset(ss_OPIa_1, "src/OPIa_1_KOR_1x_8bpp.png")		{tmpl_1(1)}
+alternative_sprites(ss_OPIa_1, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIa_1_KOR_2x_8bpp.png") {tmpl_1(2)}
+alternative_sprites(ss_OPIa_1, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIa_1_KOR_4x_8bpp.png") {tmpl_1(4)}
+spriteset(ss_OPIa_1i, "src/OPIa_1_INFO_8bpp.png")		{tmpl_depo()}
+spriteset(ss_OPIa_1_jobb, "src/OPIa_1_KOR_1x_8bpp.png")		{tmpl_1_jobb(1)}
+alternative_sprites(ss_OPIa_1_jobb, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIa_1_KOR_2x_8bpp.png") {tmpl_1_jobb(2)}
+alternative_sprites(ss_OPIa_1_jobb, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIa_1_KOR_4x_8bpp.png") {tmpl_1_jobb(4)}
+spriteset(ss_OPIa_1_bal, "src/OPIa_1_KOR_1x_8bpp.png")		{tmpl_1_bal(1)}
+alternative_sprites(ss_OPIa_1_bal, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIa_1_KOR_2x_8bpp.png") {tmpl_1_bal(2)}
+alternative_sprites(ss_OPIa_1_bal, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIa_1_KOR_4x_8bpp.png") {tmpl_1_bal(4)}
+
+spriteset(ss_OPIat_1, "src/OPIat_1_KOR_1x_8bpp.png")		{tmpl_1(1)}
+alternative_sprites(ss_OPIat_1, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIat_1_KOR_2x_8bpp.png") {tmpl_1(2)}
+alternative_sprites(ss_OPIat_1, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIat_1_KOR_4x_8bpp.png") {tmpl_1(4)}
+spriteset(ss_OPIat_1i, "src/OPIat_1_INFO_8bpp.png")		{tmpl_depo()}
+spriteset(ss_OPIat_1_jobb, "src/OPIat_1_KOR_1x_8bpp.png")		{tmpl_1_jobb(1)}
+alternative_sprites(ss_OPIat_1_jobb, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIat_1_KOR_2x_8bpp.png") {tmpl_1_jobb(2)}
+alternative_sprites(ss_OPIat_1_jobb, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIat_1_KOR_4x_8bpp.png") {tmpl_1_jobb(4)}
+spriteset(ss_OPIat_1_bal, "src/OPIat_1_KOR_1x_8bpp.png")		{tmpl_1_bal(1)}
+alternative_sprites(ss_OPIat_1_bal, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIat_1_KOR_2x_8bpp.png") {tmpl_1_bal(2)}
+alternative_sprites(ss_OPIat_1_bal, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIat_1_KOR_4x_8bpp.png") {tmpl_1_bal(4)}
+
+spriteset(ss_OPIa_1_PUP, "src/OPI_1_PUP_KOR_1x_8bpp.png")		{tmpl_1(1)}
+alternative_sprites(ss_OPIa_1_PUP, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPI_1_PUP_KOR_2x_8bpp.png") {tmpl_1(2)}
+alternative_sprites(ss_OPIa_1_PUP, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPI_1_PUP_KOR_4x_8bpp.png") {tmpl_1(4)}
+spriteset(ss_OPIa_1_PUPi, "src/OPI_1_PUP_INFO_8bpp.png")		{tmpl_depo()}
+spriteset(ss_OPIa_1_PUP_jobb, "src/OPI_1_PUP_KOR_1x_8bpp.png")		{tmpl_1_jobb(1)}
+alternative_sprites(ss_OPIa_1_PUP_jobb, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPI_1_PUP_KOR_2x_8bpp.png") {tmpl_1_jobb(2)}
+alternative_sprites(ss_OPIa_1_PUP_jobb, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPI_1_PUP_KOR_4x_8bpp.png") {tmpl_1_jobb(4)}
+spriteset(ss_OPIa_1_PUP_bal, "src/OPI_1_PUP_KOR_1x_8bpp.png")		{tmpl_1_bal(1)}
+alternative_sprites(ss_OPIa_1_PUP_bal, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPI_1_PUP_KOR_2x_8bpp.png") {tmpl_1_bal(2)}
+alternative_sprites(ss_OPIa_1_PUP_bal, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPI_1_PUP_KOR_4x_8bpp.png") {tmpl_1_bal(4)}
+
+spriteset(ss_OPIa_2, "src/OPIa_2_KOR_1x_8bpp.png")		{tmpl_1(1)}
+alternative_sprites(ss_OPIa_2, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIa_2_KOR_2x_8bpp.png") {tmpl_1(2)}
+alternative_sprites(ss_OPIa_2, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIa_2_KOR_4x_8bpp.png") {tmpl_1(4)}
+spriteset(ss_OPIa_2i, "src/OPIa_2_INFO_8bpp.png")		{tmpl_depo()}
+spriteset(ss_OPIa_2_jobb, "src/OPIa_2_KOR_1x_8bpp.png")		{tmpl_1_jobb(1)}
+alternative_sprites(ss_OPIa_2_jobb, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIa_2_KOR_2x_8bpp.png") {tmpl_1_jobb(2)}
+alternative_sprites(ss_OPIa_2_jobb, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIa_2_KOR_4x_8bpp.png") {tmpl_1_jobb(4)}
+spriteset(ss_OPIa_2_bal, "src/OPIa_2_KOR_1x_8bpp.png")		{tmpl_1_bal(1)}
+alternative_sprites(ss_OPIa_2_bal, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIa_2_KOR_2x_8bpp.png") {tmpl_1_bal(2)}
+alternative_sprites(ss_OPIa_2_bal, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIa_2_KOR_4x_8bpp.png") {tmpl_1_bal(4)}
+
+spriteset(ss_OPIat_2, "src/OPIat_2_KOR_1x_8bpp.png")		{tmpl_1(1)}
+alternative_sprites(ss_OPIat_2, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIat_2_KOR_2x_8bpp.png") {tmpl_1(2)}
+alternative_sprites(ss_OPIat_2, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIat_2_KOR_4x_8bpp.png") {tmpl_1(4)}
+spriteset(ss_OPIat_2i, "src/OPIat_2_INFO_8bpp.png")		{tmpl_depo()}
+spriteset(ss_OPIat_2_jobb, "src/OPIat_2_KOR_1x_8bpp.png")		{tmpl_1_jobb(1)}
+alternative_sprites(ss_OPIat_2_jobb, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIat_2_KOR_2x_8bpp.png") {tmpl_1_jobb(2)}
+alternative_sprites(ss_OPIat_2_jobb, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIat_2_KOR_4x_8bpp.png") {tmpl_1_jobb(4)}
+spriteset(ss_OPIat_2_bal, "src/OPIat_2_KOR_1x_8bpp.png")		{tmpl_1_bal(1)}
+alternative_sprites(ss_OPIat_2_bal, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPIat_2_KOR_2x_8bpp.png") {tmpl_1_bal(2)}
+alternative_sprites(ss_OPIat_2_bal, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPIat_2_KOR_4x_8bpp.png") {tmpl_1_bal(4)}
+
+spriteset(ss_OPIa_2_PDO, "src/OPI_2_PDO_KOR_1x_8bpp.png")		{tmpl_1(1)}
+alternative_sprites(ss_OPIa_2_PDO, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPI_2_PDO_KOR_2x_8bpp.png") {tmpl_1(2)}
+alternative_sprites(ss_OPIa_2_PDO, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPI_2_PDO_KOR_4x_8bpp.png") {tmpl_1(4)}
+spriteset(ss_OPIa_2_PDOi, "src/OPI_2_PDO_INFO_8bpp.png")		{tmpl_depo()}
+spriteset(ss_OPIa_2_PDO_jobb, "src/OPI_2_PDO_KOR_1x_8bpp.png")		{tmpl_1_jobb(1)}
+alternative_sprites(ss_OPIa_2_PDO_jobb, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPI_2_PDO_KOR_2x_8bpp.png") {tmpl_1_jobb(2)}
+alternative_sprites(ss_OPIa_2_PDO_jobb, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPI_2_PDO_KOR_4x_8bpp.png") {tmpl_1_jobb(4)}
+spriteset(ss_OPIa_2_PDO_bal, "src/OPI_2_PDO_KOR_1x_8bpp.png")		{tmpl_1_bal(1)}
+alternative_sprites(ss_OPIa_2_PDO_bal, ZOOM_LEVEL_IN_2X, BIT_DEPTH_8BPP, "src/OPI_2_PDO_KOR_2x_8bpp.png") {tmpl_1_bal(2)}
+alternative_sprites(ss_OPIa_2_PDO_bal, ZOOM_LEVEL_IN_4X, BIT_DEPTH_8BPP, "src/OPI_2_PDO_KOR_4x_8bpp.png") {tmpl_1_bal(4)}
+
+// Rakodási grafika
+
+// Irányok switch
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_1_turn, curv_info_prev_cur ) {
+	-2..-1: ss_OPIa_1_bal;
+	1..2: ss_OPIa_1_jobb;
+    ss_OPIa_1;
+}
+switch (FEAT_ROADVEHS, SELF, sw_OPIat_1_turn, curv_info_prev_cur ) {
+	-2..-1: ss_OPIat_1_bal;
+	1..2: ss_OPIat_1_jobb;
+    ss_OPIat_1;
+}
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_2_turn, curv_info_prev_cur ) {
+	-2..-1: ss_OPIa_2_bal;
+	1..2: ss_OPIa_2_jobb;
+    ss_OPIa_2;
+}
+switch (FEAT_ROADVEHS, SELF, sw_OPIat_2_turn, curv_info_prev_cur ) {
+	-2..-1: ss_OPIat_2_bal;
+	1..2: ss_OPIat_2_jobb;
+    ss_OPIat_2;
+}
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_1_PUP_turn, curv_info_prev_cur ) {
+	-2..-1: ss_OPIa_1_PUP_bal;
+	1..2: ss_OPIa_1_PUP_jobb;
+    ss_OPIa_1_PUP;
+}
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_2_PDO_turn, curv_info_prev_cur ) {
+	-2..-1: ss_OPIa_2_PDO_bal;
+	1..2: ss_OPIa_2_PDO_jobb;
+    ss_OPIa_2_PDO;
+}
+
+// Téli switch
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_1_season, current_month ) {
+	3..8: sw_OPIa_1_turn;
+    sw_OPIat_1_turn;
+}
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_2_season, current_month ) {
+	3..8: sw_OPIa_2_turn;
+    sw_OPIat_2_turn;
+}
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_1i_season, current_month ) {
+	3..8: ss_OPIa_1i;
+    ss_OPIat_1i;
+}
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_2i_season, current_month ) {
+	3..8: ss_OPIa_2i;
+    ss_OPIat_2i;
+}
+
+// Vásárlási grafika
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_purchase, [
+    STORE_TEMP((getbits(extra_callback_info1, 8, 8) < 1 ? CB_FLAG_MORE_SPRITES : 0) | PALETTE_USE_DEFAULT, 0x100),
+    getbits(extra_callback_info1, 8, 8)
+    ]) {
+    0: return ss_OPIa_purchase;    // Alap modell
+    1: return ss_OPIa_P_purchase;    // Pantonograf (le)
+}
+
+// Lista grafika
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_1i_layers, [
+    STORE_TEMP((getbits(extra_callback_info1, 8, 8) < 1 ? CB_FLAG_MORE_SPRITES : 0) | PALETTE_USE_DEFAULT, 0x100),
+    getbits(extra_callback_info1, 8, 8)
+    ]) {
+    0: return sw_OPIa_1i_season;    // Alap modell
+    1: return ss_OPIa_1_PUPi;    // Pantonograf (fel)
+}
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_2i_layers, [
+    STORE_TEMP((getbits(extra_callback_info1, 8, 8) < 1 ? CB_FLAG_MORE_SPRITES : 0) | PALETTE_USE_DEFAULT, 0x100),
+    getbits(extra_callback_info1, 8, 8)
+    ]) {
+    0: return sw_OPIa_2i_season;    // Alap modell
+    1: return ss_OPIa_2_PDOi;    // Pantonograf (fel)
+}
+
+switch (FEAT_ROADVEHS, SELF, sw_OPIai_position, position_in_consist ) {
+    1: ss_toldat;
+    2: ss_toldat;
+	3: sw_OPIa_2i_layers;
+	4: ss_toldat;
+    sw_OPIa_1i_layers;
+}
+
+// Játék grafika
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_1_layers, [
+    STORE_TEMP((getbits(extra_callback_info1, 8, 8) < 1 ? CB_FLAG_MORE_SPRITES : 0) | PALETTE_USE_DEFAULT, 0x100),
+    getbits(extra_callback_info1, 8, 8)
+    ]) {
+    0: return sw_OPIa_1_season;    // Alap modell
+    1: return sw_OPIa_1_PUP_turn;    // Pantonograf (fel)
+}
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_2_layers, [
+    STORE_TEMP((getbits(extra_callback_info1, 8, 8) < 1 ? CB_FLAG_MORE_SPRITES : 0) | PALETTE_USE_DEFAULT, 0x100),
+    getbits(extra_callback_info1, 8, 8)
+    ]) {
+    0: return sw_OPIa_2_season;    // Alap modell
+    1: return sw_OPIa_2_PDO_turn;    // Pantonograf (fel)
+}
+
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_position, position_in_consist ) {
+    1: sw_OPIa_1_layers;
+	2: ss_toldat;
+	3: sw_OPIa_2_layers;
+	4: ss_toldat;
+    ss_toldat;
+}
+
+// Rajz
+switch(FEAT_ROADVEHS, SELF, sw_OPIa, (extra_callback_info1 & 0x12)) {
+   0x10: sw_OPIai_position; // Depó nézet
+   0x11: sw_OPIai_position; // Jármű infó/Refit nézet
+   0x12: sw_OPIai_position; // Jármű lista nézet
+   0x00: sw_OPIa_position; // Játék nézet
+}
+
+// Csuklosítás
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_articulated, extra_callback_info1) {
+    0: item_OPIa;
+    1: item_OPIa_T;
+    2: item_OPIa_T;
+    3: item_OPIa_2;
+    4: item_OPIa_T;
+    CB_RESULT_NO_MORE_ARTICULATED_PARTS;
+}
+
+// Modelhossz
+switch (FEAT_ROADVEHS, SELF, sw_OPIa_length, position_in_consist) {
+	1: return 8;
+	2: return 2;
+	3: return 8;
+	4: return 2;
+    return 1;
+}
+
+// Szövegek
+switch(FEAT_ROADVEHS, SELF, sw_OPIa_namep, (extra_callback_info1 >> 8) & 0xFFFF) {
+    1: return string(STR_OPIa_BUY);
+	return CB_RESULT_NO_TEXT;
+}
+switch(FEAT_ROADVEHS, SELF, sw_OPIa_name, extra_callback_info1 & 0xFF) {
+    0x11: return string(STR_OPIa_INFO); // Jármű infóban név
+    0x20: sw_OPIa_namep; // Vásárlási lista név
+	0x21: return string(STR_OPIa_NAME); // Elővásárlási név
+	return CB_RESULT_NO_TEXT;
+}
+
+item(FEAT_ROADVEHS, item_OPIa) {
+	property {
+        name:							string(STR_OPI_NAME);
+        climates_available:				bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, CLIMATE_TROPICAL);
+        introduction_date:				date(1928,01,01);
+        model_life:						12;
+        vehicle_life:					20;
+        reliability_decay:				20;
+        refittable_cargo_classes:		bitmask(CC_PASSENGERS);
+        non_refittable_cargo_classes:	bitmask(CC_PIECE_GOODS, CC_EXPRESS, CC_REFRIGERATED);
+        loading_speed:					12;
+        sprite_id:						SPRITE_ID_NEW_ROADVEH;
+        speed:							48 km/h;
+        misc_flags:						bitmask(ROADVEH_FLAG_2CC, ROADVEH_FLAG_TRAM, ROADVEH_FLAG_SPRITE_STACK);
+        refit_cost:						0;
+        running_cost_base:				RUNNING_COST_ROADVEH;
+        power:							127 hp;
+        weight:							25 ton;
+        cargo_capacity:					74;
+		cargo_age_period:				185;
+        sound_effect:					SOUND_POWER_STATION;
+//		variant_group:					item_OPIa;
+    }
+    graphics {
+		default:                 		sw_OPIa;
+		purchase:						sw_OPIa_purchase;
+		articulated_part:        		sw_OPIa_articulated;
+		length:                  		sw_OPIa_length;
+		cost_factor:					24 * parapuco;
+		running_cost_factor:			19 * pararuco;
+		additional_text: 				string(STR_OPIa_ADAT);
+		name:							sw_OPIa_name;
+    }
+}
+item(FEAT_ROADVEHS, item_OPIa_2) {
+	property {
+        name:							string(STR_BUG);
+        climates_available:				bitmask(CLIMATE_TOYLAND);
+        introduction_date:				date(4999999,01,01);
+        refittable_cargo_classes:		bitmask(CC_PASSENGERS);
+        non_refittable_cargo_classes:	bitmask(CC_PIECE_GOODS, CC_EXPRESS, CC_REFRIGERATED);
+        loading_speed:					12;
+        cost_factor:					0;
+        running_cost_factor:			0;
+        sprite_id:						SPRITE_ID_NEW_ROADVEH;
+        misc_flags:						bitmask(ROADVEH_FLAG_2CC, ROADVEH_FLAG_TRAM, ROADVEH_FLAG_SPRITE_STACK);
+        refit_cost:						0;
+        running_cost_base:				RUNNING_COST_NONE;
+        power:							0 kW;
+        weight:							0 ton;
+        cargo_capacity:					74;
+		cargo_age_period:				0;
+        sound_effect:					SOUND_POWER_STATION;
+    }
+    graphics {
+		default:                 		sw_OPIa;
+		length:                  		sw_OPIa_length;
+    }
+}
+item(FEAT_ROADVEHS, item_OPIa_T) {
+	property {
+        name:							string(STR_BUG);
+        climates_available:				bitmask(CLIMATE_TOYLAND);
+        introduction_date:				date(4999999,01,01);
+        refittable_cargo_classes:		bitmask(NO_CARGO_CLASS);
+        non_refittable_cargo_classes:	bitmask(CC_PIECE_GOODS, CC_EXPRESS, CC_REFRIGERATED);
+        loading_speed:					0;
+        cost_factor:					0;
+        running_cost_factor:			0;
+        sprite_id:						SPRITE_ID_NEW_ROADVEH;
+        misc_flags:						bitmask(ROADVEH_FLAG_2CC, ROADVEH_FLAG_TRAM, ROADVEH_FLAG_SPRITE_STACK);
+        refit_cost:						0;
+        running_cost_base:				RUNNING_COST_NONE;
+        power:							0 kW;
+        weight:							0 ton;
+        cargo_capacity:					0;
+		cargo_age_period:				0;
+    }
+    graphics {
+		default:                 		sw_OPIa;
+		length:                  		sw_OPIa_length;
+    }
+}
+// --------------------------------------------------------------------------------OPIa End
+// --
+// --
+sort(FEAT_ROADVEHS, [
+	item_OPIa
+	]);
